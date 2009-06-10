@@ -1,0 +1,18 @@
+easy way to define wrappers
+
+
+to do:
+
+generate C code from bit-struct spec?
+
+variable-length embedded fields, with referenced length field
+
+terminated arrays?
+
+use with mmap; in general: bit struct that references a position in another string or string-like object (e.g. a Mmap).
+
+use require 'ipaddr'?
+
+See ideas in
+
+  http://www.notwork.org/~gotoken/ruby/p/as-is/pack.rb
