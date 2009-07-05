@@ -169,7 +169,7 @@ The output of this fragment is:
 
 == Version
 
-bit-struct 0.10
+bit-struct 0.12
 
 The current version of this software can be found at http://redshift.sourceforge.net/bit-struct.
 
@@ -180,4 +180,4 @@ This software is distributed under the Ruby license. See http://www.ruby-lang.or
 == Author
 
 Joel VanderWerf, mailto:vjoel@users.sourceforge.net
-Copyright (c) 2005-2007, Joel VanderWerf.
+Copyright (c) 2005-2009, Joel VanderWerf.

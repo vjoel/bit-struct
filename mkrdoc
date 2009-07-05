@@ -1,2 +1,0 @@
-rdoc $* -m intro.txt -o doc -t 'bit-struct' \
-  intro.txt lib/**/*.rb README RELEASE-NOTES

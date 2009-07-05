@@ -4,24 +4,25 @@ class BitStruct
   # Class for embedding a BitStruct::Vector as a field within a BitStruct.
   # Declared with BitStruct.vector.
   class VectorField < Field
-    def initialize(*args)
-      super
-    end
-    
     # Used in describe.
     def self.class_name
       @class_name ||= "vector"
     end
     
+    # Used in describe.
     def class_name
       @class_name ||= vector_class.name[/\w+$/]
     end
     
+    # Returns the subclass of Vector that is used to manage the value of this
+    # field. If the class was specified in the BitStruct.vector declaration,
+    # #vector_class will return it, otherwise it will be an anonymous class
+    # (which you can assign to a constant to make nonymous ;).
     def vector_class
       @vector_class ||= options[:vector_class] || options["vector_class"]
     end
 
-    def describe opts
+    def describe opts # :nodoc:
       if opts[:expand]
         opts = opts.dup
         opts[:byte_offset] = offset / 8
@@ -77,8 +78,6 @@ class BitStruct
   class << self
     # Define a vector field in the current subclass of BitStruct,
     # with the given _name_.
-    #
-    # In _rest_:
     #
     # If a class is provided, use it for the Vector class, otherwise
     # the block must define the entry fields. The two forms looks like
