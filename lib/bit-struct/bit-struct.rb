@@ -112,8 +112,22 @@ class BitStruct < String
   class FieldNameError < StandardError; end
   
   @default_options = {}
-    
+  
+  @initial_value = nil
+  @closed = nil
+  @rest_field = nil
+  @note = nil
+
   class << self
+    def inherited cl
+      cl.instance_eval do
+        @initial_value = nil
+        @closed = nil
+        @rest_field = nil
+        @note = nil
+      end
+    end
+    
     # ------------------------
     # :section: field access methods
     #
