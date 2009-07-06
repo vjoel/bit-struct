@@ -9,6 +9,7 @@
 # The String#replace method is useful.
 #
 class BitStruct < String
+  VERSION = "0.12"
 
   class Field
     # Offset of field in bits.

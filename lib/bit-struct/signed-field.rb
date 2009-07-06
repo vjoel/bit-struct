@@ -1,5 +1,3 @@
-require 'bit-struct/bit-struct'
-
 class BitStruct
   # Class for signed integers in network order, 1-16 bits, or 8n bits.
   # Declared with BitStruct.signed.
@@ -255,29 +253,6 @@ class BitStruct
       else
         raise "unsupported: #{inspect}"
       end
-    end
-  end
-
-  class << self
-    # Define a signed integer field in the current subclass of BitStruct,
-    # with the given _name_ and _length_ (in bits).
-    #
-    # If a class is provided, use it for the Field class.
-    # If a string is provided, use it for the display_name.
-    # If a hash is provided, use it for options.
-    #
-    # SignedField adds the <tt>:fixed => divisor</tt> option, which specifies
-    # that the internally stored value is interpreted as a fixed point real
-    # number with the specified +divisor+.
-    #
-    # The <tt>:endian => :native</tt> option overrides the default of
-    # <tt>:network</tt> byte ordering, in favor of native byte ordering. Also
-    # permitted are <tt>:big</tt> (same as <tt>:network</tt>) and
-    # <tt>:little</tt>.
-    #
-    def signed name, length, *rest
-      opts = parse_options(rest, name, SignedField)
-      add_field(name, length, opts)
     end
   end
 end

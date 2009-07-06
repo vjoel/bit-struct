@@ -1,5 +1,4 @@
 require 'bit-struct'
-require 'bit-struct/vector-field' ### remove this using autoload
 
 # Example 1
 class Vec < BitStruct::Vector

@@ -1,5 +1,3 @@
-require 'bit-struct/bit-struct'
-
 # A Vector is, like a BitStruct, a String. It retains all of the String
 # methods, except for #[], #[]=, and #each. These methods operate on entries
 # instead of chars. Other methods, including #length and #slice, are unchanged.

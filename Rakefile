@@ -14,7 +14,7 @@ rescue LoadError
 end
 
 ensure_in_path 'lib'
-###require 'bit-struct'
+require 'bit-struct/version'
 
 task :default => 'spec:run'
 
@@ -22,7 +22,7 @@ PROJ.name = 'bit-struct'
 PROJ.authors = 'Joel VanderWerf'
 PROJ.email = 'vjoel@users.sourceforge.net'
 PROJ.url = 'http://rubyforge.org/projects/bit-struct/'
-PROJ.version = "0.12" ###BitStruct::VERSION
+PROJ.version = BitStruct::VERSION
 PROJ.rubyforge.name = 'bit-struct'
 PROJ.summary = "Library for packed binary data stored in ruby Strings"
 PROJ.description = <<END
