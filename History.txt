@@ -1,3 +1,11 @@
+bit-struct 0.13
+
+- Packaged as a gem using bones.
+
+- Added nest fields defined with blocks. (Markus Fischer)
+
+- Vector length may be specified as argument or :length option. (Markus Fischer)
+
 bit-struct 0.12
 
 - Added vectors.

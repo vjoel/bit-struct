@@ -14,7 +14,7 @@ rescue LoadError
 end
 
 ensure_in_path 'lib'
-require 'bit-struct/version'
+require 'bit-struct/bit-struct'
 
 task :default => 'spec:run'
 
@@ -30,5 +30,7 @@ Library for packed binary data stored in ruby Strings. Useful for accessing fiel
 END
 
 PROJ.spec.opts << '--color'
+
+task :release => ["gem:release", "doc:release"]
 
 # EOF

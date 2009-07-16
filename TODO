@@ -1,14 +1,11 @@
-website:
-
-  scp doc/ vjoel@rubyforge.org:/var/www/gforge-projects/bit-struct/
-
+rest :name, :terminator => ...
 
 easy way to define wrappers
 
-
-to do:
-
 generate C code from bit-struct spec?
+
+write extension to extract and insert bit-fields, and use that instead
+  of pack/unpack
 
 variable-length embedded fields, with referenced length field
 

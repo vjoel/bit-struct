@@ -39,6 +39,12 @@ Field options (specifiable as :foo => val or "foo" => val) include:
 
 == Installation
 
+For .gem:
+
+  gem install bit-struct
+
+For .tgz, unpack and then:
+
   ruby install.rb config
   ruby install.rb setup
   ruby install.rb install
@@ -167,9 +173,7 @@ The output of this fragment is:
        @16: octets       ip_dst        [ 32b] Dest addr
        rest is application defined message body
 
-== Version
-
-bit-struct 0.12
+== Web site
 
 The current version of this software can be found at http://redshift.sourceforge.net/bit-struct.
 

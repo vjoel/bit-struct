@@ -54,14 +54,9 @@ class BitStruct
     # with the given _name_ and _nested_class_. Length is determined from
     # _nested_class_.
     #
-    # In _rest_:
-    #
     # If a class is provided, use it for the Field class (i.e. <=NestedField).
     # If a string is provided, use it for the display_name.
     # If a hash is provided, use it for options.
-    #
-    # WARNING: the accessors have COPY semantics, not reference. When you call a
-    # reader method to get the nested structure, you get a *copy* of that data.
     #
     # For example:
     #
@@ -77,6 +72,19 @@ class BitStruct
     #
     #   p a  # ==> #<A n=#<Sub x=0>>
     #
+    # If a block is given, use it to define the nested fields. For example, the
+    # following is equivalent to the above example:
+    #
+    #   class A < BitStruct
+    #     nest :n do
+    #       unsigned :x, 8
+    #     end
+    #   end
+    #
+    # WARNING: the accessors have COPY semantics, not reference. When you call a
+    # reader method to get the nested structure, you get a *copy* of that data.
+    # Expressed in terms of the examples above:
+    #
     #   # This fails to set x in a.
     #   a.n.x = 3
     #   p a  # ==> #<A n=#<Sub x=0>>
@@ -87,8 +95,21 @@ class BitStruct
     #   a.n = n
     #   p a  # ==> #<A n=#<Sub x=3>>
     # 
-    def nest(name, nested_class, *rest)
+    def nest(name, *rest, &block)
       opts = parse_options(rest, name, NestedField)
+      nested_class = opts[:nested_class]
+      
+      unless (block and not nested_class) or (nested_class and not block)
+        raise ArgumentError,
+          "nested field must have either a nested_class option or a block," +
+          " but not both"
+      end
+      
+      unless nested_class
+        nested_class = Class.new(BitStruct)
+        nested_class.class_eval(&block)
+      end
+      
       opts[:default] ||= nested_class.initial_value.dup
       opts[:nested_class] = nested_class
       field = add_field(name, nested_class.bit_length, opts)
@@ -212,6 +233,8 @@ class BitStruct
     #
     # If a string is provided, use it for the display_name.
     # If a hash is provided, use it for options.
+    # If a number is provided, use it for length (equivalent to using the
+    # :length option).
     #
     # WARNING: the accessors have COPY semantics, not reference. When you call a
     # reader method to get the vector structure, you get a *copy* of that data.
@@ -253,9 +276,11 @@ class BitStruct
       
       vector_class.default_options default_options
       
-      length = opts[:length] ## what about :length => :lenfield
+      length = opts[:length] || rest.grep(Integer).first
+        ## what about :length => :lenfield
       unless length
-        raise ArgumentError, "Must provide length as :length => N"
+        raise ArgumentError,
+          "Must provide length as argument N or as option :length => N"
       end
 
       opts[:default] ||= vector_class.new(length) ## nil if variable length

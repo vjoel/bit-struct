@@ -74,10 +74,10 @@ class Packet < BitStruct
   unsigned :stuff, 32, "whatever"
   
   # Using the Vec class defined above
-  vector  :v, Vec, "a vector", :length => 5
+  vector  :v, Vec, "a vector", 5
 
   # equivalently, using an anonymous subclass of BitStruct::Vector
-  vector :v2, "a vector 2", :length => 5 do
+  vector :v2, "a vector 2", 5 do
     unsigned :x,  16
     signed   :y,  32
   end
