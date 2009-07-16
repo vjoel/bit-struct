@@ -96,8 +96,10 @@ class BitStruct
     #   p a  # ==> #<A n=#<Sub x=3>>
     # 
     def nest(name, *rest, &block)
+      nested_class = rest.grep(Class).find {|cl| cl <= BitStruct}
+      rest.delete nested_class
       opts = parse_options(rest, name, NestedField)
-      nested_class = opts[:nested_class]
+      nested_class = opts[:nested_class] ||= nested_class
       
       unless (block and not nested_class) or (nested_class and not block)
         raise ArgumentError,
