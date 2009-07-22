@@ -16,7 +16,7 @@ end
 ensure_in_path 'lib'
 require 'bit-struct/bit-struct'
 
-task :default => 'spec:run'
+#task :default => 'spec:run'
 
 PROJ.name = 'bit-struct'
 PROJ.authors = 'Joel VanderWerf'
@@ -28,8 +28,10 @@ PROJ.summary = "Library for packed binary data stored in ruby Strings"
 PROJ.description = <<END
 Library for packed binary data stored in ruby Strings. Useful for accessing fields in network packets and binary files.
 END
+PROJ.changes = File.read(PROJ.history_file)[/^\w.*?(?=^\w)/m]
 
 PROJ.spec.opts << '--color'
+PROJ.test.files = Dir["test/*.rb"]
 
 task :release => ["gem:release", "doc:release"]
 
