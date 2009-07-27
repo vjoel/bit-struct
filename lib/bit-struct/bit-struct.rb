@@ -9,7 +9,7 @@
 # The String#replace method is useful.
 #
 class BitStruct < String
-  VERSION = "0.13.5"
+  VERSION = "0.13.6"
 
   class Field
     # Offset of field in bits.
@@ -245,6 +245,11 @@ class BitStruct < String
     self.class.fields
   end
   
+  # Return the rest field for this class.
+  def rest_field
+    self.class.rest_field
+  end
+  
   # Return the field with the given name.
   def field_by_name name
     self.class.field_by_name name
@@ -383,6 +388,7 @@ class BitStruct < String
     if include_rest and (rest_field = self.class.rest_field)
       ary << send(rest_field.name)
     end
+    ary
   end
   
   ## temporary hack for 1.9

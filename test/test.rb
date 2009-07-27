@@ -313,6 +313,27 @@ class Test_BitStruct < Test::Unit::TestCase
     end
   end
   
+  def test_to_a_exclude_rest
+    include_rest = false
+    a = @bs_1.to_a(include_rest)
+    field_names = @bs_1.fields.map{|f|f.name.to_s}
+    assert_equal(a.size, field_names.size)
+    field_names.each_with_index do |name, i|
+      assert_equal(@bs_1.send(name), a[i])
+    end
+  end
+
+  def test_to_a
+    include_rest = true
+    a = @bs_1.to_a(include_rest)
+    field_names = @bs_1.fields.map{|f|f.name.to_s}
+    field_names << @bs_1.rest_field.name
+    assert_equal(a.size, field_names.size)
+    field_names.each_with_index do |name, i|
+      assert_equal(@bs_1.send(name), a[i])
+    end
+  end
+  
   def test_format_option
     formatted_fields = @bs.fields.select {|f|f.format}
     formatted_fields.each do |f|

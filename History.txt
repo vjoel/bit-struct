@@ -1,3 +1,7 @@
+bit-struct 0.13.6
+
+- Fixed bug in #to_a. Thanks Michael Edgar.
+
 bit-struct 0.13
 
 - Packaged as a gem using bones.
