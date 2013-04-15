@@ -27,6 +27,25 @@ class BitStruct
       end
     end
 
+  elsif RUBY_VERSION =~ /^2\./
+    def encode_with coder
+      yaml_fields = fields.select {|field| field.inspectable?}
+      props = yaml_fields.map {|f| f.name.to_s}
+      if (rest_field = self.class.rest_field)
+        props << rest_field.name.to_s
+      end
+      props.each do |prop|
+        coder[prop] = send(prop)
+      end
+    end
+
+    def init_with coder
+      self << self.class.initial_value
+      coder.map.each do |k, v|
+        send("#{k}=", v)
+      end
+    end
+
   else
     yaml_as "tag:github.com:vjoel/bit-struct"
 
