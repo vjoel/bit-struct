@@ -1,4 +1,4 @@
-= BitStruct
+# BitStruct #
 
 Class for packed binary data stored in ruby Strings. BitStruct accessors, generated from user declared fields, use pack/unpack to treat substrings as fields with a specified portable format.
 
@@ -37,25 +37,25 @@ Field options (specifiable as :foo => val or "foo" => val) include:
 * *fixed*: float stored as fixed-point integer, with specified scale factor
 
 
-== Installation
+## Installation ##
 
 For .gem:
 
-  gem install bit-struct
+    gem install bit-struct
 
 For .tgz, unpack and then:
 
-  ruby install.rb config
-  ruby install.rb setup
-  ruby install.rb install
+    ruby install.rb config
+    ruby install.rb setup
+    ruby install.rb install
 
-== Uses
+## Uses ##
 
 BitStruct is useful for defining packets used in network protocols. This is especially useful for raw IP--see examples/ping-recv.rb. All multibyte numeric fields are stored by default in network order.
 
 BitStruct is most efficient when your data is primarily treated as a binary string, and only secondarily treated as a data structure. (For instance, you are routing packets from one socket to another, possibly looking at one or two fields as it passes through or munging some headers.) If accessor operations are a bottleneck, a better approach is to define a class that wraps an array and uses pack/unpack when the object needs to behave like a binary string.
 
-== Features
+## Features ##
 
 * Extensible with user-defined field classes.
 
@@ -77,13 +77,13 @@ BitStruct is most efficient when your data is primarily treated as a binary stri
 
 * Includes tests, examples, and rdoc API documentation.
 
-== Limitations
+## Limitations ##
 
 * Fields that are not aligned on byte boundaries may cross no more than two bytes boundaries. (See examples/byte-bdy.rb.)
 
 * No variable length fields (except the #rest field).
  
-== Future plans
+## Future plans ##
 
 * Currently, the library is written in pure ruby. The implementation uses Array#pack and String#unpack calls, as well as shifting and masking in pure ruby. Future versions will optionally generate a customized C extension for better efficiency.
 
@@ -91,97 +91,99 @@ BitStruct is most efficient when your data is primarily treated as a binary stri
 
 * Remove field size and alignment limitations.
 
-== Example
+## Example ##
 
 An IP packet can be defined and used like this:
 
-  require 'bit-struct'
+```ruby
+    require 'bit-struct'
 
-  class IP < BitStruct
-    unsigned    :ip_v,     4,     "Version"
-    unsigned    :ip_hl,    4,     "Header length"
-    unsigned    :ip_tos,   8,     "TOS"
-    unsigned    :ip_len,  16,     "Length"
-    unsigned    :ip_id,   16,     "ID"
-    unsigned    :ip_off,  16,     "Frag offset"
-    unsigned    :ip_ttl,   8,     "TTL"
-    unsigned    :ip_p,     8,     "Protocol"
-    unsigned    :ip_sum,  16,     "Checksum"
-    octets      :ip_src,  32,     "Source addr"
-    octets      :ip_dst,  32,     "Dest addr"
-    rest        :body,            "Body of message"
+    class IP < BitStruct
+      unsigned    :ip_v,     4,     "Version"
+      unsigned    :ip_hl,    4,     "Header length"
+      unsigned    :ip_tos,   8,     "TOS"
+      unsigned    :ip_len,  16,     "Length"
+      unsigned    :ip_id,   16,     "ID"
+      unsigned    :ip_off,  16,     "Frag offset"
+      unsigned    :ip_ttl,   8,     "TTL"
+      unsigned    :ip_p,     8,     "Protocol"
+      unsigned    :ip_sum,  16,     "Checksum"
+      octets      :ip_src,  32,     "Source addr"
+      octets      :ip_dst,  32,     "Dest addr"
+      rest        :body,            "Body of message"
 
-    note "     rest is application defined message body"
+      note "     rest is application defined message body"
 
-    initial_value.ip_v    = 4
-    initial_value.ip_hl   = 5
-  end
+      initial_value.ip_v    = 4
+      initial_value.ip_hl   = 5
+    end
 
-  ip = IP.new
-  ip.ip_tos = 0
-  ip.ip_len = 0
-  ip.ip_id  = 0
-  ip.ip_off = 0
-  ip.ip_ttl = 255
-  ip.ip_p   = 255
-  ip.ip_sum = 0
-  ip.ip_src = "192.168.1.4"
-  ip.ip_dst = "192.168.1.255"
-  ip.body   = "This is the payload text."
-  ip.ip_len = ip.length
+    ip = IP.new
+    ip.ip_tos = 0
+    ip.ip_len = 0
+    ip.ip_id  = 0
+    ip.ip_off = 0
+    ip.ip_ttl = 255
+    ip.ip_p   = 255
+    ip.ip_sum = 0
+    ip.ip_src = "192.168.1.4"
+    ip.ip_dst = "192.168.1.255"
+    ip.body   = "This is the payload text."
+    ip.ip_len = ip.length
 
-  puts ip.inspect
-  puts "-"*50
-  puts ip.inspect_detailed
-  puts "-"*50
-  puts IP.describe
+    puts ip.inspect
+    puts "-"*50
+    puts ip.inspect_detailed
+    puts "-"*50
+    puts IP.describe
+```
 
 (Note that you can also construct an IP packet by passing a string to new, or by passing a hash of <tt>field,value</tt> pairs, or by providing a block that is yielded the new BitStruct.)
 
 The output of this fragment is:
 
-  #<IP ip_v=4, ip_hl=5, ip_tos=0, ip_len=45, ip_id=0, ip_off=0, ip_ttl=255, ip_p=255, ip_sum=0, ip_src="192.168.1.4", ip_dst="192.168.1.255", body="This is the payload text.">
-  --------------------------------------------------
-  IP:
-                         Version = 4
-                   Header length = 5
-                             TOS = 0
-                          Length = 45
-                              ID = 0
-                     Frag offset = 0
-                             TTL = 255
-                        Protocol = 255
-                        Checksum = 0
-                     Source addr = "192.168.1.4"
-                       Dest addr = "192.168.1.255"
-                 Body of message = "This is the payload text."
-  --------------------------------------------------
+    #<IP ip_v=4, ip_hl=5, ip_tos=0, ip_len=45, ip_id=0, ip_off=0, ip_ttl=255, ip_p=255, ip_sum=0, ip_src="192.168.1.4", ip_dst="192.168.1.255", body="This is the payload text.">
+    --------------------------------------------------
+    IP:
+                           Version = 4
+                     Header length = 5
+                               TOS = 0
+                            Length = 45
+                                ID = 0
+                       Frag offset = 0
+                               TTL = 255
+                          Protocol = 255
+                          Checksum = 0
+                       Source addr = "192.168.1.4"
+                         Dest addr = "192.168.1.255"
+                   Body of message = "This is the payload text."
+    --------------------------------------------------
 
-  Description of IP Packet:
-      byte: type         name          [size] description
-  ----------------------------------------------------------------------
-        @0: unsigned     ip_v          [  4b] Version
-        @0: unsigned     ip_hl         [  4b] Header length
-        @1: unsigned     ip_tos        [  8b] TOS
-        @2: unsigned     ip_len        [ 16b] Length
-        @4: unsigned     ip_id         [ 16b] ID
-        @6: unsigned     ip_off        [ 16b] Frag offset
-        @8: unsigned     ip_ttl        [  8b] TTL
-        @9: unsigned     ip_p          [  8b] Protocol
-       @10: unsigned     ip_sum        [ 16b] Checksum
-       @12: octets       ip_src        [ 32b] Source addr
-       @16: octets       ip_dst        [ 32b] Dest addr
-       rest is application defined message body
+    Description of IP Packet:
+        byte: type         name          [size] description
+    ----------------------------------------------------------------------
+          @0: unsigned     ip_v          [  4b] Version
+          @0: unsigned     ip_hl         [  4b] Header length
+          @1: unsigned     ip_tos        [  8b] TOS
+          @2: unsigned     ip_len        [ 16b] Length
+          @4: unsigned     ip_id         [ 16b] ID
+          @6: unsigned     ip_off        [ 16b] Frag offset
+          @8: unsigned     ip_ttl        [  8b] TTL
+          @9: unsigned     ip_p          [  8b] Protocol
+         @10: unsigned     ip_sum        [ 16b] Checksum
+         @12: octets       ip_src        [ 32b] Source addr
+         @16: octets       ip_dst        [ 32b] Dest addr
+         rest is application defined message body
 
-== Web site
+## Web site ##
 
 The current version of this software can be found at https://github.com/vjoel/bit-struct.
 
-== License
+## License ##
 
 This software is distributed under the Ruby license. See http://www.ruby-lang.org.
 
-== Author
+## Author ##
 
 Joel VanderWerf, mailto:vjoel@users.sourceforge.net
 Copyright (c) 2005-2013, Joel VanderWerf.
