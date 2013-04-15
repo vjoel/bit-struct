@@ -13,6 +13,23 @@ rescue LoadError
   end
 end
 
+namespace :doc do
+  desc "Publish RDoc to RubyForge using rsync"
+  task :rsync  => %w(doc:clobber_rdoc doc:rdoc) do
+    config = YAML.load(
+        File.read(File.expand_path('~/.rubyforge/user-config.yml'))
+    )
+
+    host = "#{config['username']}@rubyforge.org"
+    remote_dir = "/var/www/gforge-projects/#{PROJ.rubyforge.name}/"
+    remote_dir << PROJ.rdoc.remote_dir if PROJ.rdoc.remote_dir
+    local_dir = PROJ.rdoc.dir
+
+    sh %{rsync -az --delete #{local_dir}/ #{host}:#{remote_dir}}
+    #Rake::SshDirPublisher.new(host, remote_dir, local_dir).upload
+  end
+end  # namespace :doc
+
 ensure_in_path 'lib'
 require 'bit-struct/bit-struct'
 
@@ -30,9 +47,11 @@ Library for packed binary data stored in ruby Strings. Useful for accessing fiel
 END
 PROJ.changes = File.read(PROJ.history_file)[/^\w.*?(?=^\w)/m]
 
+(PROJ.rdoc.dir = File.readlink(PROJ.rdoc.dir)) rescue nil
+
 PROJ.spec.opts << '--color'
 PROJ.test.files = Dir["test/*.rb"]
 
-task :release => ["gem:release", "doc:release"]
+task :release => ["gem:release", "doc:rsync"]
 
 # EOF
