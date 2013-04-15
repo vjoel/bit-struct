@@ -89,8 +89,8 @@ class BitStruct < String
       val = obj.send(name)
       str =
         begin
-          val.inspect(opts)
-        rescue ArgumentError # assume: "wrong number of arguments (1 for 0)"
+          val.inspect_with_options(opts)
+        rescue NoMethodError
           val.inspect
         end
       (f=@format) ? (f % str) : str
@@ -487,7 +487,7 @@ class BitStruct < String
   }
   
   # A standard inspect method which does not add newlines.
-  def inspect(opts = DEFAULT_INSPECT_OPTS)
+  def inspect_with_options(opts = DEFAULT_INSPECT_OPTS)
     field_format = opts[:field_format]
     field_name_meth = opts[:field_name_meth]
     
@@ -510,6 +510,8 @@ class BitStruct < String
       opts[:simple_format] % body
     end
   end
+  
+  alias inspect inspect_with_options
   
   # A more visually appealing inspect method that puts each field/value on
   # a separate line. Very useful when output is scrolling by on a screen.

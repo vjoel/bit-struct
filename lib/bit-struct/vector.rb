@@ -153,7 +153,7 @@ class BitStruct::Vector < String
     end
   end
   
-  def inspect(opts = BitStruct::DEFAULT_INSPECT_OPTS)
+  def inspect_with_options(opts = BitStruct::DEFAULT_INSPECT_OPTS)
     if opts[:include_class]
       opts = opts.dup
       opts[:include_class] = false
@@ -166,6 +166,8 @@ class BitStruct::Vector < String
     lb, rb = opts[:brackets]
     [lb, s, rb].join
   end
+
+  alias inspect inspect_with_options
   
   def inspect_detailed
     inspect(BitStruct::DETAILED_INSPECT_OPTS)
