@@ -28,7 +28,7 @@ class BitStruct
     end
 
   else
-    yaml_as "tag:path.berkeley.edu,2006:bitstruct"
+    yaml_as "tag:github.com:vjoel/bit-struct"
 
     def to_yaml_properties # :nodoc:
       yaml_fields = fields.select {|field| field.inspectable?}
