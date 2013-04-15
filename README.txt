@@ -175,7 +175,7 @@ The output of this fragment is:
 
 == Web site
 
-The current version of this software can be found at http://redshift.sourceforge.net/bit-struct.
+The current version of this software can be found at https://github.com/vjoel/bit-struct.
 
 == License
 
@@ -184,4 +184,4 @@ This software is distributed under the Ruby license. See http://www.ruby-lang.or
 == Author
 
 Joel VanderWerf, mailto:vjoel@users.sourceforge.net
-Copyright (c) 2005-2009, Joel VanderWerf.
+Copyright (c) 2005-2013, Joel VanderWerf.
