@@ -2,7 +2,7 @@ require 'bit-struct'
 
 Gem::Specification.new do |s|
   s.name = "bit-struct"
-  s.version = BitStruct::Version
+  s.version = BitStruct::VERSION
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0")
   s.authors = ["Joel VanderWerf"]

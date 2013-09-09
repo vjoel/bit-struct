@@ -1,6 +1,7 @@
 bit-struct 0.15
 
 - modernize rakefile and gemspec
+- switch to minitest
 
 bit-struct 0.14
 
