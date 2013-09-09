@@ -1,7 +1,7 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'bit-struct'
 
-class Test_Vector < Test::Unit::TestCase
+class Test_Vector < Minitest::Test
   class Packet < BitStruct
     unsigned :stuff, 32, "whatever"
 

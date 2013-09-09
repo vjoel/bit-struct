@@ -1,7 +1,7 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'bit-struct'
 
-class Test_Endian < Test::Unit::TestCase
+class Test_Endian < Minitest::Test
   class Endian < BitStruct
     unsigned  :f_big,       32,   :endian => :big
     unsigned  :f_little,    32,   :endian => :little

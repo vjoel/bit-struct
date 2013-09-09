@@ -1,9 +1,7 @@
-#!/usr/bin/env ruby
-
-require 'test/unit'
+require 'minitest/autorun'
 require 'bit-struct'
 
-class Test_BitStruct < Test::Unit::TestCase
+class Test_BitStruct < Minitest::Test
 
   class T1 < BitStruct
     unsigned    :foo, 8
