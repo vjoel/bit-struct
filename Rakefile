@@ -1,57 +1,64 @@
-# Look in the tasks/setup.rb file for the various options that can be
-# configured in this Rakefile. The .rake files in the tasks directory
-# are where the options are used.
+require 'rake'
+require 'rake/testtask'
 
-begin
-  require 'bones'
-  Bones.setup
-rescue LoadError
-  begin
-    load 'tasks/setup.rb'
-  rescue LoadError
-    raise RuntimeError, '### please install the "bones" gem ###'
+PRJ = "bit-struct"
+
+def version
+  @version ||= begin
+    require 'bit-struct'
+    warn "BitStruct::VERSION not a string" unless
+      BitStruct::VERSION.kind_of? String
+    BitStruct::VERSION
   end
 end
 
-namespace :doc do
-  desc "Publish RDoc to RubyForge using rsync"
-  task :rsync  => %w(doc:clobber_rdoc doc:rdoc) do
-    config = YAML.load(
-        File.read(File.expand_path('~/.rubyforge/user-config.yml'))
-    )
+def tag
+  @tag ||= "#{PRJ}-#{version}"
+end
 
-    host = "#{config['username']}@rubyforge.org"
-    remote_dir = "/var/www/gforge-projects/#{PROJ.rubyforge.name}/"
-    remote_dir << PROJ.rdoc.remote_dir if PROJ.rdoc.remote_dir
-    local_dir = PROJ.rdoc.dir
+desc "Run unit tests"
+Rake::TestTask.new :test do |t|
+  t.libs << "lib"
+  t.test_files = FileList["test/*.rb"]
+end
 
-    sh %{rsync -az --delete #{local_dir}/ #{host}:#{remote_dir}}
-    #Rake::SshDirPublisher.new(host, remote_dir, local_dir).upload
+desc "Commit, tag, and push repo; build and push gem"
+task :release => "release:is_new_version" do
+  require 'tempfile'
+  
+  sh "gem build #{PRJ}.gemspec"
+
+  file = Tempfile.new "template"
+  begin
+    file.puts "release #{version}"
+    file.close
+    sh "git commit --allow-empty -a -v -t #{file.path}"
+  ensure
+    file.close unless file.closed?
+    file.unlink
   end
-end  # namespace :doc
 
-ensure_in_path 'lib'
-require 'bit-struct/bit-struct'
+  sh "git tag #{tag}"
+  sh "git push"
+  sh "git push --tags"
+  
+  sh "gem push #{tag}.gem"
+end
 
-#task :default => 'spec:run'
+namespace :release do
+  desc "Diff to latest release"
+  task :diff do
+    latest = `git describe --abbrev=0 --tags --match '#{PRJ}-*'`.chomp
+    sh "git diff #{latest}"
+  end
 
-PROJ.name = 'bit-struct'
-PROJ.authors = 'Joel VanderWerf'
-PROJ.email = 'vjoel@users.sourceforge.net'
-PROJ.url = 'http://rubyforge.org/projects/bit-struct/'
-PROJ.version = BitStruct::VERSION
-PROJ.rubyforge.name = 'bit-struct'
-PROJ.summary = "Library for packed binary data stored in ruby Strings"
-PROJ.description = <<END
-Library for packed binary data stored in ruby Strings. Useful for accessing fields in network packets and binary files.
-END
-PROJ.changes = File.read(PROJ.history_file)[/^\w.*?(?=^\w)/m]
+  desc "Log to latest release"
+  task :log do
+    latest = `git describe --abbrev=0 --tags --match '#{PRJ}-*'`.chomp
+    sh "git log #{latest}.."
+  end
 
-(PROJ.rdoc.dir = File.readlink(PROJ.rdoc.dir)) rescue nil
-
-PROJ.spec.opts << '--color'
-PROJ.test.files = Dir["test/*.rb"]
-
-task :release => ["gem:release", "doc:rsync"]
-
-# EOF
+  task :is_new_version do
+    abort "#{tag} exists; update version!" unless `git tag -l #{tag}`.empty?
+  end
+end

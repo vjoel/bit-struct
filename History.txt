@@ -1,3 +1,7 @@
+bit-struct 0.15
+
+- modernize rakefile and gemspec
+
 bit-struct 0.14
 
 - updated for ruby 2.0

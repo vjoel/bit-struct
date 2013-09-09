@@ -18,3 +18,5 @@ use require 'ipaddr'?
 See ideas in
 
   http://www.notwork.org/~gotoken/ruby/p/as-is/pack.rb
+
+use setbyte and getbyte ?
