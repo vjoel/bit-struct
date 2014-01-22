@@ -186,4 +186,4 @@ This software is distributed under the Ruby license. See http://www.ruby-lang.or
 ## Author ##
 
 Joel VanderWerf, mailto:vjoel@users.sourceforge.net
-Copyright (c) 2005-2013, Joel VanderWerf.
+Copyright (c) 2005-2014, Joel VanderWerf.
