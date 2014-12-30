@@ -7,16 +7,16 @@ class BitStruct
     def initialize(*args)
       super
     end
-    
+
     # Used in describe.
     def self.class_name
       @class_name ||= "nest"
     end
-    
+
     def class_name
       @class_name ||= nested_class.name[/\w+$/]
     end
-    
+
     def nested_class
       @nested_class ||= options[:nested_class] || options["nested_class"]
     end
@@ -38,20 +38,20 @@ class BitStruct
           "Bad offset, #{offset}, for nested field #{name}." +
           " Must be multiple of 8."
       end
-      
+
       unless length % 8 == 0
         raise ArgumentError,
           "Bad length, #{length}, for nested field #{name}." +
           " Must be multiple of 8."
       end
-      
+
       offset_byte = offset / 8
       length_byte = length / 8
       last_byte = offset_byte + length_byte - 1
       byte_range = offset_byte..last_byte
 
       nc = nested_class
-      
+
       cl.class_eval do
         define_method attr do ||
           nc.new(self[byte_range])
@@ -62,12 +62,12 @@ class BitStruct
             raise ArgumentError, "Size mismatch in nested struct assignment " +
               "to #{attr} with value #{val.inspect}"
           end
-          
+
           if val.class != nc
             warn "Type mismatch in nested struct assignment " +
               "to #{attr} with value #{val.inspect}"
           end
-          
+
           self[byte_range] = val
         end
       end
