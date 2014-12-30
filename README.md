@@ -82,7 +82,7 @@ BitStruct is most efficient when your data is primarily treated as a binary stri
 * Fields that are not aligned on byte boundaries may cross no more than two bytes boundaries. (See examples/byte-bdy.rb.)
 
 * No variable length fields (except the #rest field).
- 
+
 ## Future plans ##
 
 * Currently, the library is written in pure ruby. The implementation uses Array#pack and String#unpack calls, as well as shifting and masking in pure ruby. Future versions will optionally generate a customized C extension for better efficiency.

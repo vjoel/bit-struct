@@ -18,6 +18,6 @@ md = MD.new
       row.col = cols
     rows[2] = row
   md.row = rows
-  
+
 p md
 p md.row[2].col[7].x

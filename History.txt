@@ -35,7 +35,7 @@ bit-struct 0.10
 - Fixed a bug when calling #to_yaml on a BitStruct with a pad field. Thanks
   to Jay Reitz for reporting it and providing the solution.
 
-- Added BitStruct.default_options. Particularly useful for default endian 
+- Added BitStruct.default_options. Particularly useful for default endian
   settings--see examples/native.rb.
 
 - Fixed a bug that prevented warning about field name conflicts with

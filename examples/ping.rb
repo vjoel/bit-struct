@@ -61,7 +61,7 @@ addr = Socket.pack_sockaddr_in(1024, "localhost")
     b.ip_len  = b.length
     b.ip_sum  = 0 ## ?
   end
-  
+
   out = "-"*80,
         "packet sent:",
         icmp.inspect_detailed,

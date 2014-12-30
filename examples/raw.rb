@@ -50,7 +50,7 @@ addr = Socket.pack_sockaddr_in(1024, "localhost")
     b.ip_len  = b.length
     b.ip_sum  = 0 # linux will calculate this for us (QNX won't?)
   end
-  
+
   out = "-"*80,
         "packet sent:",
         ip.inspect_detailed,
