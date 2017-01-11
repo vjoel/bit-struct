@@ -1,4 +1,4 @@
-require 'bit-struct/char-field'
+require 'bit-struct/octet-field'
 
 class BitStruct
   # Class for char fields that can be accessed with values like
