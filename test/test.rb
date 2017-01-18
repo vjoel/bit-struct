@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'bit-struct'
 
-class Test_BitStruct < Minitest::Unit::TestCase
+class Test_BitStruct < Minitest::Test
 
   class T1 < BitStruct
     unsigned    :foo, 8
