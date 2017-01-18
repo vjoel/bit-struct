@@ -304,7 +304,7 @@ class BitStruct < String
 
   if "a"[0].kind_of? String
     def [](*args)
-      if args.size == 1 and args[0].kind_of?(Fixnum)
+      if args.size == 1 and args[0].kind_of?(Integer)
         super.ord
       else
         super
@@ -312,7 +312,7 @@ class BitStruct < String
     end
 
     def []=(*args)
-      if args.size == 2 and (i=args[0]).kind_of?(Fixnum)
+      if args.size == 2 and (i=args[0]).kind_of?(Integer)
         super(i, args[1].chr)
       else
         super

@@ -22,9 +22,6 @@ class BitStruct
 
       divisor = options[:fixed] || options["fixed"]
       divisor_f = divisor && divisor.to_f
-#      if divisor and not divisor.is_a? Fixnum
-#        raise ArgumentError, "fixed-point divisor must be a fixnum"
-#      end
 
       endian = (options[:endian] || options["endian"]).to_s
       case endian
