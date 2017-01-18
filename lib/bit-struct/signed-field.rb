@@ -14,11 +14,9 @@ class BitStruct
       length_bit = offset_bit + length
       length_byte = (length_bit/8.0).ceil
       last_byte = offset_byte + length_byte - 1
-      max = 2**length-1
       mid = 2**(length-1)
       max_unsigned = 2**length
       to_signed = proc {|n| (n>=mid) ? n - max_unsigned : n}
-#      to_signed = proc {|n| (n>=mid) ? -((n ^ max) + 1) : n}
 
       divisor = options[:fixed] || options["fixed"]
       divisor_f = divisor && divisor.to_f

@@ -7,7 +7,7 @@ class BitStruct
     end
 
     YAML.add_ruby_type(/^bitstruct/) do |type, val|
-      subtype, subclass = YAML.read_type_class(type, Object)
+      _subtype, subclass = YAML.read_type_class(type, Object)
       subclass.new(val)
     end
 
@@ -74,7 +74,7 @@ class BitStruct
         raise YAML::TypeError, "Invalid BitStruct: " + val.inspect
       end
 
-      bitstruct_name, bitstruct_type = YAML.read_type_class( tag, BitStruct )
+      _bitstruct_name, bitstruct_type = YAML.read_type_class( tag, BitStruct )
 
       st = bitstruct_type.new
 
