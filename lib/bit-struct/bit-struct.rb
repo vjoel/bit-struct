@@ -302,7 +302,6 @@ class BitStruct < String
     ary
   end
 
-  ## temporary hack for 1.9
   if "a"[0].kind_of? String
     def [](*args)
       if args.size == 1 and args[0].kind_of?(Fixnum)
