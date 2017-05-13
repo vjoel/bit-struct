@@ -3,7 +3,7 @@ module ModuleMethodSaver
     @saved ||= []
     @saved << [meth, args, block]
   end
-  
+
   def included(m)
     if @saved
       @saved.each do |meth, args, block|
@@ -18,7 +18,7 @@ require 'bit-struct'
 
 module MyFields
   extend ModuleMethodSaver
-  
+
   unsigned  :x, 16
 end
 

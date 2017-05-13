@@ -9,20 +9,20 @@ class Test_Vector < Minitest::Test
       unsigned :x,  16
       signed   :y,  32
     end
-    
+
     unsigned :other, 16, "other stuff"
   end
-  
+
   attr_reader :pkt
 
   def setup
     @pkt = Packet.new
   end
-  
+
   def test_length
     assert_equal(Packet.round_byte_length, pkt.length)
   end
-  
+
   def test_writers
     assert_equal(pkt.v[2].x, 0)
     v = pkt.v

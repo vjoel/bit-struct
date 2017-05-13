@@ -5,7 +5,7 @@ class Vec < BitStruct::Vector
   # these declarations apply to *each* entry in the vector:
   unsigned :x,  16
   signed   :y,  32
-  
+
   Entry = struct_class # Give it a name, just for inspect to look nice
 end
 
@@ -72,7 +72,7 @@ puts
 # Example 4: vector field in a bitstruct
 class Packet < BitStruct
   unsigned :stuff, 32, "whatever"
-  
+
   # Using the Vec class defined above
   vector  :v, Vec, "a vector", 5
 

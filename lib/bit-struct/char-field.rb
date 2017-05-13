@@ -5,7 +5,7 @@ class BitStruct
     #def self.default
     #  don't define this, since it must specify N nulls and we don't know N
     #end
-    
+
     # Used in describe.
     def self.class_name
       @class_name ||= "char"
@@ -17,13 +17,13 @@ class BitStruct
           "Bad offset, #{offset}, for #{self.class} #{name}." +
           " Must be multiple of 8."
       end
-      
+
       unless length % 8 == 0
         raise ArgumentError,
           "Bad length, #{length}, for #{self.class} #{name}." +
           " Must be multiple of 8."
       end
-      
+
       offset_byte = offset / 8
       length_byte = length / 8
       last_byte = offset_byte + length_byte - 1

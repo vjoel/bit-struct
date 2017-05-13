@@ -94,24 +94,24 @@ class BitStruct
     #   n.x = 3
     #   a.n = n
     #   p a  # ==> #<A n=#<Sub x=3>>
-    # 
+    #
     def nest(name, *rest, &block)
       nested_class = rest.grep(Class).find {|cl| cl <= BitStruct}
       rest.delete nested_class
       opts = parse_options(rest, name, NestedField)
       nested_class = opts[:nested_class] ||= nested_class
-      
+
       unless (block and not nested_class) or (nested_class and not block)
         raise ArgumentError,
           "nested field must have either a nested_class option or a block," +
           " but not both"
       end
-      
+
       unless nested_class
         nested_class = Class.new(BitStruct)
         nested_class.class_eval(&block)
       end
-      
+
       opts[:default] ||= nested_class.initial_value.dup
       opts[:nested_class] = nested_class
       field = add_field(name, nested_class.bit_length, opts)
@@ -250,17 +250,17 @@ class BitStruct
     #         entry.y = -456
     #       vec[2] = entry
     #     pkt.v = vec
-    # 
+    #
     def vector(name, *rest, &block)
       opts = parse_options(rest, name, nil)
       cl = opts[:field_class]
       opts[:field_class] = VectorField
-      
+
       unless (block and not cl) or (cl and not block)
         raise ArgumentError,
           "vector must have either a class or a block, but not both"
       end
-      
+
       case
       when cl == nil
         vector_class = Class.new(BitStruct::Vector)
@@ -272,12 +272,12 @@ class BitStruct
 
       when cl < BitStruct::Vector
         vector_class = cl
-      
+
       else raise ArgumentError, "Bad vector class: #{cl.inspect}"
       end
-      
+
       vector_class.default_options default_options
-      
+
       length = opts[:length] || rest.grep(Integer).first
         ## what about :length => :lenfield
       unless length
@@ -287,14 +287,14 @@ class BitStruct
 
       opts[:default] ||= vector_class.new(length) ## nil if variable length
       opts[:vector_class] = vector_class
-      
+
       bit_length = vector_class.struct_class.round_byte_length * 8 * length
-      
+
       field = add_field(name, bit_length, opts)
       field
     end
     BitStruct.autoload :VectorField, "bit-struct/vector-field"
   end
-  
+
   autoload :Vector, "bit-struct/vector"
 end

@@ -22,7 +22,7 @@ class BitStruct::Vector < String
         @struct_class = nil
       end
     end
-    
+
     # Called as a class method with a single argument in a user-defined
     # subclass to specify a particular BitStruct class to use for each entry,
     # instead of generating an anonymous class. Called without arguments to
@@ -38,7 +38,7 @@ class BitStruct::Vector < String
         @struct_class.default_options default_options
       else
         unless @struct_class
-          @struct_class = self == BitStruct::Vector ? BitStruct : 
+          @struct_class = self == BitStruct::Vector ? BitStruct :
             Class.new(superclass.struct_class)
           @struct_class.default_options default_options
         end
@@ -54,7 +54,7 @@ class BitStruct::Vector < String
     def respond_to?(*m)  # :nodoc:
       orig_respond_to?(*m) || struct_class.respond_to?(*m)
     end
-    
+
     # Get or set the hash of default options for the class, which apply to all
     # fields in the entries. If +h+ is provided, update the default options
     # with that hash. Default options are inherited.
@@ -70,7 +70,7 @@ class BitStruct::Vector < String
       end
       @default_options
     end
-    
+
     def describe(*args)
       fmt = args[0] || BitStruct.describe_format
       if block_given?
@@ -81,37 +81,37 @@ class BitStruct::Vector < String
       end
     end
   end
-    
+
   # Convenience method for instances. Returns the BitStruct class that
   # describes each entry.
   def struct_class
     self.class.struct_class
   end
-  
-  # Convenience method for instances. Returns the string length in bytes of 
+
+  # Convenience method for instances. Returns the string length in bytes of
   # each entry in the vector.
   def struct_class_length
     self.class.struct_class.round_byte_length
   end
-  
+
   # +arg+ can be an integer (number of entries) or a string
   # (binary data, such as another Vector of the same size).
   def initialize arg   # :yields: instance
     case arg
     when Integer
       super(struct_class.initial_value * arg)
-    
+
     else
       begin
         super arg
       rescue NameError
         raise ArgumentError, "must be string or integer: #{arg.inspect}"
       end
-    end 
+    end
 
     yield self if block_given?
   end
-  
+
   # Get the +i+-th entry. Returns a *copy* of the entry. If you want to
   # use this copy to modify the entry, you must modify the copy and then
   # use #[]= to replace the entry with the copy.
@@ -122,29 +122,29 @@ class BitStruct::Vector < String
     unless (0...(length / entry_length)).include? i
       raise ArgumentError, "index out of range: #{i}"
     end
-    
+
     sc.new slice(entry_length * i, entry_length)
   end
-  
+
   alias _old_replace_substr []=
 
   # Set the +i+-th entry to +val+.
   def []=(i,val)
     entry_length = struct_class_length
-    
+
     unless (0...(length / entry_length)).include? i
       raise ArgumentError, "index out of range: #{i}"
     end
-    
+
     unless val.length == entry_length
       raise ArgumentError, "wrong entry length: #{val.length} != #{entry_length}"
     end
-    
+
     _old_replace_substr(entry_length * i, entry_length, val)
   end
-  
+
   ## TODO: [i..j] etc.
-  
+
   # Iterate over entries.
   def each
     entry_length = struct_class_length
@@ -152,7 +152,7 @@ class BitStruct::Vector < String
       yield self[i]
     end
   end
-  
+
   def inspect_with_options(opts = BitStruct::DEFAULT_INSPECT_OPTS)
     if opts[:include_class]
       opts = opts.dup
@@ -161,14 +161,14 @@ class BitStruct::Vector < String
     else
       s = ""
     end
-    
+
     s << entries.map{|entry| entry.inspect(opts)}.join(opts[:separator])
     lb, rb = opts[:brackets]
     [lb, s, rb].join
   end
 
   alias inspect inspect_with_options
-  
+
   def inspect_detailed
     inspect(BitStruct::DETAILED_INSPECT_OPTS)
   end

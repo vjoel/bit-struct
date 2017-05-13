@@ -13,7 +13,7 @@ end
 
 class BS2 < BitStruct
   fields_to_add = BS1.fields.select {|f| f.name.to_s =~ /[234]/}
-  
+
   fields_to_add.each do |field|
     add_field(field.name, field.length, field.options)
   end

@@ -5,14 +5,14 @@ class BitStruct
   # "xxx.xxx.xxx.xxx", where each xxx is up to 3 decimal digits representing a
   # single octet. The original string-based accessors are still available with
   # the <tt>_chars</tt> suffix.
-  # 
+  #
   # Declared with BitStruct.octets.
   class OctetField < BitStruct::CharField
     # Used in describe.
     def self.class_name
       @class_name ||= "octets"
     end
-    
+
     SEPARATOR = "."
     FORMAT    = "%d"
     BASE      = 10
@@ -23,7 +23,7 @@ class BitStruct
       sep   = self.class::SEPARATOR
       base  = self.class::BASE
       fmt   = self.class::FORMAT
-      
+
       cl.class_eval do
         define_method attr do ||
           ary = []
@@ -32,7 +32,7 @@ class BitStruct
           end
           ary.join(sep)
         end
-        
+
         old_writer = "#{attr_chars}="
 
         define_method "#{attr}=" do |val|

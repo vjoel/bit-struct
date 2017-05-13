@@ -15,7 +15,7 @@ class IP < BitStruct
   rest        :body,            "Body of message"
 
   note "     rest is application defined message body"
-  
+
   initial_value.ip_v    = 4
   initial_value.ip_hl   = 5
 end
@@ -33,7 +33,7 @@ if __FILE__ == $0
   ip1.ip_dst = "192.168.1.255"
   ip1.body   = "This is the payload text."
   ip1.ip_len = ip1.length
-  
+
   ip2 = IP.new do |ip|
     ip.ip_tos = 0
     ip.ip_len = 0
@@ -47,7 +47,7 @@ if __FILE__ == $0
     ip.body   = "This is the payload text."
     ip.ip_len = ip.length
   end
-  
+
   ip3 = IP.new(
     :ip_tos => 0,
     :ip_len => 0,
@@ -62,15 +62,15 @@ if __FILE__ == $0
   ) do |ip|
     ip.ip_len = ip.length
   end
-  
+
   ip4 = IP.new(ip1) # Construct from a BitStruct (or String)
-  
+
   raise unless ip1 == ip2
   raise unless ip1 == ip3
   raise unless ip1 == ip4
 
   ip = ip1
-  
+
   puts ip.inspect
   puts "-"*50
   puts ip.inspect_detailed
