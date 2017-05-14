@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.date = Time.now.strftime "%Y-%m-%d"
   s.description = "Library for packed binary data stored in ruby Strings. Useful for accessing fields in network packets and binary files."
   s.email = "vjoel@users.sourceforge.net"
-  s.extra_rdoc_files = ["History.txt", "README.md"]
+  s.extra_rdoc_files = ["History.txt", "README.md", "LICENSE"]
   s.files = Dir[
-    "History.txt", "README.md", "Rakefile",
+    "History.txt", "README.md", "LICENSE", "Rakefile",
     "lib/**/*.rb",
     "examples/*.{rb,txt}",
     "test/*.rb"
