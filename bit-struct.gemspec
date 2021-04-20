@@ -27,6 +27,5 @@ Gem::Specification.new do |s|
     "--quiet", "--line-numbers", "--inline-source",
     "--title", "BitStruct", "--main", "README.md"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = "bit-struct"
   s.summary = "Library for packed binary data stored in ruby Strings"
 end
