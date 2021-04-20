@@ -1,3 +1,7 @@
+bit-struct 0.17
+
+- updated for ruby 3.0
+
 bit-struct 0.16
 
 - updated for ruby 2.4

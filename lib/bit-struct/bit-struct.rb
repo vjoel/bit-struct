@@ -9,7 +9,7 @@
 # The String#replace method is useful.
 #
 class BitStruct < String
-  VERSION = "0.16"
+  VERSION = "0.17"
 
   require 'bit-struct/field'
   NULL_FIELD = Field.new(0, 0, :null, :display_name => "null field")
